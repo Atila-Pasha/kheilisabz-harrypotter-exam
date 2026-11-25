@@ -109,7 +109,7 @@ async function loadPdf(){
 }
 async function renderCrop(q){
   const token=++renderToken,loc=DATA.locations[String(q)];if(!loc)return;
-  $('renderRetry').hidden=true;$('renderStatus').textContent='در حال آماده‌سازی سؤال…';$('openPdf').href=`${PDF_URL}#page=${loc.page}`;
+  $('renderRetry').hidden=true;$('renderStatus').textContent='در حال آماده‌سازی سؤال…';
   try{
     const doc=await loadPdf(),page=await doc.getPage(loc.page);if(token!==renderToken)return;
     const renderScale=2*(settings.zoom/100),viewport=page.getViewport({scale:renderScale});
@@ -119,7 +119,7 @@ async function renderCrop(q){
     const sx=0,sy=Math.floor(top*renderScale),sw=full.width,sh=Math.min(full.height-sy,Math.ceil((bottom-top)*renderScale));
     const canvas=$('questionCanvas');canvas.width=sw;canvas.height=sh;canvas.getContext('2d').drawImage(full,sx,sy,sw,sh,0,0,sw,sh);
     $('renderStatus').textContent=`نمایش سؤال از صفحهٔ ${fa(loc.page)} کتاب`;
-  }catch(error){console.error(error);pdfDoc=null;$('renderRetry').hidden=false;$('renderStatus').textContent='نمایش سؤال ممکن نشد؛ دوباره تلاش کنید یا PDF را باز کنید.';toast('فایل کتاب بارگذاری نشد')}
+  }catch(error){console.error(error);pdfDoc=null;$('renderRetry').hidden=false;$('renderStatus').textContent='نمایش سؤال ممکن نشد؛ دوباره تلاش کنید.';toast('نمایش سؤال ممکن نشد؛ دوباره تلاش کنید.')}
 }
 
 function renderQuestion(){
